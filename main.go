@@ -45,7 +45,25 @@ func main() {
 		fmt.Println("Is ther anything else you want ot add?")
 		fmt.Scan(&input)
 		if strings.ToLower(input) == "no" {
+			fmt.Println("Cool! These are your daily goals for the next 75 days!")
 			fmt.Println(user1.Tasks)
+		} else if strings.ToLower(input) == "yes" {
+			for strings.ToLower(input) == "yes" {
+				fmt.Println("What else should I add to your challange?")
+				fmt.Scan(&input)
+				user1.Tasks = append(user1.Tasks, input)
+				fmt.Println("Is ther anything else you want ot add?")
+				fmt.Scan(&input)
+				if strings.ToLower(input) == "no" {
+					break
+				} else {
+					input = "yes"
+				}
+			}
+
+		} else {
+			fmt.Println("Sorry, I did not quite catch that?")
 		}
+
 	}
 }
