@@ -1,28 +1,11 @@
 package main
 
 import (
-	"fmt"
-
-	"github.com/gin-gonic/gin"
+	"75hardgo/api"
 )
 
-type User struct {
-	Name     string   `json:"name"`
-	Progress int      `json:"progress"`
-	Tasks    []string `json:"tasks"`
-}
-
-var input string
-
-func takeName() {
-	fmt.Println("How may I call you?")
-	fmt.Scanln(&input)
-	user1 := User{Name: input}
-	fmt.Println("Hello", user1.Name)
-}
-
 func main() {
-	router := gin.Default()
+	service := api.NewService()
 
-	router.Run("localhost:8080")
+	service.Router.Run("localhost:8080")
 }

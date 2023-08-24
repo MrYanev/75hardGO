@@ -1,15 +1,12 @@
 package main
 
-import (
-	"fmt"
-	"strings"
-)
+/*
+	type User struct {
+		Name     string
+		Progress int
+		Tasks    []string
+	}
 
-type User struct {
-	Name     string
-	Progress int
-	Tasks    []string
-}
 
 func main() {
 	//The program starts by asking the user for a name
@@ -37,23 +34,25 @@ func main() {
 
 	fmt.Println("Do you want to add tasks to the challenge or you will stick to the original one? (Yes/No)")
 	fmt.Scanln(&input)
-	/*
+
 		for strings.ToLower(input) == "yes" || strings.ToLower(input) == "no" {
 			fmt.Println("Sorry, I did not quite catch that?")
 			fmt.Scanln(&input)
 		}
-	*/
+
 	if strings.ToLower(input) == "yes" {
 		fmt.Printf("I like your spirit, %v!\n", user1.Name)
 
 		fmt.Println("What else would you like me to add to the list?")
-		fmt.Scanln(&input)
+		task := ""
+		fmt.Fscanln(&input, task)
+		fmt.Println(input)
 		user1.Tasks = append(user1.Tasks, input)
 
 		fmt.Println("Is ther anything else you want ot add?")
 		fmt.Scanln(&input)
 
-		/*
+
 			for strings.ToLower(input) != "yes" || strings.ToLower(input) != "no" {
 				fmt.Println("Sorry, I did not quite catch that?")
 				fmt.Scanln(&input)
@@ -61,7 +60,7 @@ func main() {
 					break
 				}
 			}
-		*/
+
 
 		if strings.ToLower(input) == "no" {
 			fmt.Println("Cool! These are your daily goals for the next 75 days!")
@@ -88,3 +87,4 @@ func main() {
 		fmt.Println(i)
 	}
 }
+*/
