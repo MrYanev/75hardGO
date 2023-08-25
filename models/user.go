@@ -1,5 +1,10 @@
 package models
 
+import (
+	"fmt"
+	"os"
+)
+
 type User struct {
 	Name     string   `json:"name"`
 	Progress int      `json:"progress"`
@@ -16,6 +21,15 @@ func (u *User) CheckProgressOnTasks(taskName string) bool {
 }
 
 func (u *User) Create() (*User, error) {
-	// create a txt file for the user and save it
-	return nil, nil
+	file, err := os.Create(u.Name)
+	if err != nil {
+		return nil, err
+	}
+	defer file.Close()
+
+	_, err = fmt.Fprintf(file, "Name: %s\nProgress: %d\n", u.Name, u.Progress)
+	if err != nil {
+		return nil, err
+	}
+	return u, nil
 }

@@ -25,7 +25,8 @@ func (s *Service) LoadUsersFromTxtFiles(folderName string) error {
 	return nil
 }
 
-// Create API endpoint to reach from frontend or api client
+// Create is the api endpoint for creating users by given
+// name, progress and tasks.
 func (s *Service) Create(u *models.User) (*models.User, error) {
 	// add user in the map and create a txt file for him
 	return u.Create()
