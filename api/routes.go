@@ -4,3 +4,7 @@ package api
 
 // flow of logic/inputs should go:
 // main -> api -> models -> storage (txt files)
+
+func routing(s *Service) {
+	s.Router.Run("localhost:8080")
+}
