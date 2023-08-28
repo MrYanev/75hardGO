@@ -20,8 +20,8 @@ func (u *User) CheckProgressOnTasks(taskName string) bool {
 	return false
 }
 
-func (u *User) Create() (*User, error) {
-	file, err := os.Create(u.Name)
+func (u *User) Create(fileName string) (*User, error) {
+	file, err := os.Create(fileName)
 	if err != nil {
 		return nil, err
 	}
