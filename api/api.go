@@ -43,7 +43,17 @@ func (s *Service) Create(u *models.User) (*models.User, error) {
 
 func (s *Service) Get(name string) (*models.User, error) {
 	// print out info of user from his txt file or return err
-	return nil, nil
+	user, ok := s.Users[name]
+	if !ok {
+		return nil, fmt.Errorf("User not found")
+	}
+
+	fileName := fmt.Sprintf("%s_user_data.txt", user.Name)
+	userFromFile, err := models.ReadUserFromFile(fileName)
+	if err != nil {
+		return nil, err
+	}
+	return userFromFile, nil
 }
 
 func (s *Service) AddTask(task string, userName string) error {
