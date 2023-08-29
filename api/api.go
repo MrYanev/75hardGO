@@ -3,7 +3,6 @@ package api
 import (
 	"75hardgo/models"
 	"fmt"
-	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
@@ -58,23 +57,4 @@ func (s *Service) AddTask(task string, userName string) error {
 func (s *Service) CheckTasks() ([]string, error) {
 	// just display tasks (u.CheckTasks())
 	return nil, nil
-}
-
-func createUser(s *Service, c *gin.Context) {
-	var newUser models.User
-	if err := c.BindJSON(&newUser); err != nil {
-		c.String(http.StatusBadRequest, "Invalid Input")
-		return
-	}
-
-	createdUser, err := s.Create(&newUser)
-	if err != nil {
-		c.String(http.StatusInternalServerError, "Error creating user: %s", err.Error())
-		return
-	}
-
-	c.JSON(http.StatusOK, gin.H{
-		"message": "User created succsessfully",
-		"user":    createdUser,
-	})
 }

@@ -2,40 +2,20 @@ package main
 
 import (
 	"75hardgo/api"
-	"75hardgo/models"
-	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
-var service = api.NewService()
-
-func createUser(c *gin.Context) {
-	var newUser models.User
-	if err := c.BindJSON(&newUser); err != nil {
-		c.String(http.StatusBadRequest, "Invalid Input")
-		return
-	}
-
-	createdUser, err := service.Create(&newUser)
-	if err != nil {
-		c.String(http.StatusInternalServerError, "Error creating user: %s", err.Error())
-		return
-	}
-
-	c.JSON(http.StatusOK, gin.H{
-		"message": "User created succsessfully",
-		"user":    createdUser,
-	})
-}
-
-func routing(s *api.Service) {
-	s.Router.POST("/create", createUser)
-	s.Router.Run("localhost:8080")
-}
-
 func main() {
+	gin.SetMode(gin.ReleaseMode)
 
+	r := gin.Default()
+
+	apiService := api.NewService()
+
+	api.CreateRouting(apiService, r)
+
+	r.Run("localhost:8080")
 }
 
 /*
