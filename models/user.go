@@ -1,8 +1,10 @@
 package models
 
 import (
+	"bufio"
 	"fmt"
 	"os"
+	"strings"
 )
 
 type User struct {
@@ -17,6 +19,19 @@ func (u *User) CheckTasks() []string {
 
 func (u *User) CheckProgressOnTasks(taskName string) bool {
 	// check if tasks are compleated and reset or print shame message!
+	reader := bufio.NewReader(os.Stdin)
+
+	fmt.Println("Please comfirm the compleation of each task")
+	for i, task := range u.Tasks {
+		fmt.Printf("Task %d: %s (yes/no): ", i+1, task)
+		answer, _ := reader.ReadString('\n')
+		answer = strings.TrimSpace(answer)
+
+		if strings.ToLower(answer) == "no" {
+			u.Progress = 0
+			fmt.Println("You have failed to acomplish all tasks today")
+		}
+	}
 	return false
 }
 
