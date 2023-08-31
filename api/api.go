@@ -66,7 +66,20 @@ func (s *Service) AddTask(task string, userName string) error {
 	return nil
 }
 
-func (s *Service) CheckTasks() ([]string, error) {
+func (s *Service) CheckTasks(name string) ([]string, error) {
 	// just display tasks (u.CheckTasks())
-	return nil, nil
+	user, ok := s.Users[name]
+	if !ok {
+		return nil, fmt.Errorf("User not found")
+	}
+
+	taskStatus := make([]string, len(user.Tasks))
+	for i, taskCompleted := range user.Tasks {
+		status := "Not Completed"
+		if taskCompleted == "Not Completed" {
+			status = "Completed"
+		}
+		taskStatus[i] = fmt.Sprintf("Task %d: %s", i+1, status)
+	}
+	return taskStatus, nil
 }
