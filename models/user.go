@@ -17,7 +17,7 @@ func (u *User) CheckTasks() []string {
 	return u.Tasks
 }
 
-func (u *User) CheckProgressOnTasks(taskName string) bool {
+func (u *User) CheckProgressOnTasks(taskName string) (bool, error) {
 	// check if tasks are compleated and reset or print shame message!
 	reader := bufio.NewReader(os.Stdin)
 
@@ -29,10 +29,11 @@ func (u *User) CheckProgressOnTasks(taskName string) bool {
 
 		if strings.ToLower(answer) == "no" {
 			u.Progress = 0
-			fmt.Println("You have failed to acomplish all tasks today")
+			fmt.Printf("You have failed to accomplish all tasks today\n")
+			fmt.Println("Your progress has been restarted!")
 		}
 	}
-	return false
+	return true, nil
 }
 
 func (u *User) Create(fileName string) (*User, error) {

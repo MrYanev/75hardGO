@@ -66,20 +66,17 @@ func (s *Service) AddTask(task string, userName string) error {
 	return nil
 }
 
-func (s *Service) CheckTasks(name string) ([]string, error) {
+func (s *Service) CheckTasks(name string, u *models.User) (bool, error) {
 	// just display tasks (u.CheckTasks())
 	user, ok := s.Users[name]
 	if !ok {
-		return nil, fmt.Errorf("User not found")
+		return false, fmt.Errorf("User not found")
 	}
 
-	taskStatus := make([]string, len(user.Tasks))
-	for i, taskCompleted := range user.Tasks {
-		status := "Not Completed"
-		if taskCompleted == "Not Completed" {
-			status = "Completed"
-		}
-		taskStatus[i] = fmt.Sprintf("Task %d: %s", i+1, status)
+	tasksUser, err := u.CheckProgressOnTasks(user.Name)
+	if err != nil {
+		return false, fmt.Errorf("Shit just hit the fan!")
 	}
-	return taskStatus, nil
+
+	return tasksUser, nil
 }

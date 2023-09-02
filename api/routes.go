@@ -33,3 +33,22 @@ func CreateRouting(s *Service, r *gin.Engine) {
 	})
 
 }
+
+func CheckProgressOnTasksRouting(s *Service, r *gin.Engine) {
+	s.Router.GET("/check", func(c *gin.Context) {
+		var newUser models.User
+		if err := c.BindJSON(&newUser); err != nil {
+			c.String(http.StatusBadRequest, "User doesn't exist!")
+		}
+
+		userTasks, err := s.CheckTasks(newUser.Name, &newUser)
+		if err != nil {
+			c.String(http.StatusInternalServerError, "The shit just hit the fan!")
+		}
+
+		c.JSON(http.StatusOK, gin.H{
+			"message": "These are your daily tasks:",
+			"tasks":   userTasks,
+		})
+	})
+}
