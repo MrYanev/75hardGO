@@ -52,4 +52,20 @@ func (u *User) Create(fileName string) (*User, error) {
 
 func ReadUserDataFromFile(fileName string) {
 	//Function for fetching data drom the text file
+	file, err := os.Open(fileName)
+	if err != nil {
+		fmt.Errorf("Failed to read the file!")
+	}
+	defer file.Close()
+
+	scanner := bufio.NewScanner(file)
+
+	for scanner.Scan() {
+		line := scanner.Text()
+		fmt.Println(line)
+	}
+
+	if err := scanner.Err(); err != nil {
+		fmt.Errorf("Error while reading the file!")
+	}
 }
