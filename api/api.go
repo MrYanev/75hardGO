@@ -35,7 +35,7 @@ func (s *Service) Create(u *models.User) (*models.User, error) {
 	fileName := fmt.Sprintf("%s_user_data.txt", u.Name)
 	createdUser, err := u.Create(fileName)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("Failed to create a file!")
 	}
 
 	return createdUser, nil
