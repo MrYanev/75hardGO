@@ -39,13 +39,13 @@ func (u *User) CheckProgressOnTasks(taskName string) (bool, error) {
 func (u *User) Create(fileName string) (*User, error) {
 	file, err := os.Create(fileName)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("Failed to create a file!")
 	}
 	defer file.Close()
 
 	_, err = fmt.Fprintf(file, "Name: %s\nProgress: %d\n", u.Name, u.Progress)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("Failed to create a file!")
 	}
 	return u, nil
 }
