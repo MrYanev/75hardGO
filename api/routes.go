@@ -13,7 +13,7 @@ import (
 // main -> api -> models -> storage (txt files)
 
 func CreateRouting(s *Service, r *gin.Engine) {
-	s.Router.POST("/create", func(c *gin.Context) {
+	s.Router.POST("/creates", func(c *gin.Context) {
 		var newUser models.User
 		if err := c.BindJSON(&newUser); err != nil {
 			c.String(http.StatusBadRequest, "Invalid Input")
@@ -35,7 +35,7 @@ func CreateRouting(s *Service, r *gin.Engine) {
 }
 
 func CheckProgressOnTasksRouting(s *Service, r *gin.Engine) {
-	s.Router.GET("/check", func(c *gin.Context) {
+	s.Router.GET("/checker", func(c *gin.Context) {
 		var newUser models.User
 		if err := c.BindJSON(&newUser); err != nil {
 			c.String(http.StatusBadRequest, "User doesn't exist!")
