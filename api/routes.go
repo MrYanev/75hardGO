@@ -38,7 +38,7 @@ func CheckProgressOnTasksRouting(s *Service, r *gin.Engine) {
 	s.Router.GET("/checker", func(c *gin.Context) {
 		var newUser models.User
 		if err := c.BindJSON(&newUser); err != nil {
-			c.String(http.StatusBadRequest, "User doesn't exist!")
+			c.String(http.StatusNotFound, "User doesn't exist!")
 		}
 
 		userTasks, err := s.CheckTasks(newUser.Name, &newUser)
