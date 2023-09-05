@@ -1,16 +1,16 @@
 package api
 
+// define routes for endpoints
+
+// flow of logic/inputs should go:
+// main -> api -> models -> storage (txt files)
+
 import (
 	"75hardgo/models"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
-
-// define routes for endpoints
-
-// flow of logic/inputs should go:
-// main -> api -> models -> storage (txt files)
 
 func CreateRouting(s *Service, r *gin.Engine) {
 	s.Router.POST("/creates", func(c *gin.Context) {
