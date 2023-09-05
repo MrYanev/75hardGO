@@ -14,7 +14,14 @@ import (
 
 func CreateRouting(s *Service, r *gin.Engine) {
 	s.Router.POST("/creates", func(c *gin.Context) {
-		var newUser models.User
+
+		newUser, ok := c.GetQuery("name")
+		models.GetName(newUser)
+
+		if !ok { //If not OK error message
+			c.IndentedJSON(http.StatusBadRequest, gin.H{"message": "Missing Name query param!"})
+			return
+		}
 		if err := c.BindJSON(&newUser); err != nil {
 			c.String(http.StatusBadRequest, "Invalid Input")
 			return
