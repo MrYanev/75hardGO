@@ -52,3 +52,9 @@ func CheckProgressOnTasksRouting(s *Service, r *gin.Engine) {
 		})
 	})
 }
+
+func ReadUserDataRouting(s *Service, r *gin.Engine) {
+	s.Router.GET("/reader", func(c *gin.Context) {
+
+	})
+}
