@@ -19,6 +19,8 @@ func main() {
 
 	api.CheckProgressOnTasksRouting(apiService, r)
 
+	api.ReadUserDataRouting(apiService, r)
+
 	r.Run("localhost:8080")
 
 	//Name to be added
