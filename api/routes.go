@@ -16,7 +16,6 @@ func CreateRouting(s *Service, r *gin.Engine) {
 	s.Router.POST("/creates", func(c *gin.Context) {
 
 		newUser, ok := c.GetQuery("name")
-		models.GetName(newUser)
 
 		if !ok { //If not OK error message
 			c.IndentedJSON(http.StatusBadRequest, gin.H{"message": "Missing Name query param!"})
