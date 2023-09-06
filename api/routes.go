@@ -15,7 +15,7 @@ import (
 func CreateRouting(s *Service, r *gin.Engine) {
 	s.Router.POST("/creates", func(c *gin.Context) {
 
-		newUser, ok := c.GetQuery("name")
+		newUser, ok := c.GetQuery("name") //To be checked
 
 		if !ok { //If not OK error message
 			c.IndentedJSON(http.StatusBadRequest, gin.H{"message": "Missing Name query param!"})
@@ -26,7 +26,7 @@ func CreateRouting(s *Service, r *gin.Engine) {
 			return
 		}
 
-		createdUser, err := s.Create(&newUser)
+		createdUser, err := s.Create(&newUser) //To be checked
 		if err != nil {
 			c.String(http.StatusInternalServerError, "Error creating user: %s", err.Error())
 			return
