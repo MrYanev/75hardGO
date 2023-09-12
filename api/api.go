@@ -41,15 +41,15 @@ func (s *Service) Create(u *models.User) (*models.User, error) {
 	return createdUser, nil
 }
 
-func (s *Service) Get(name string) (*models.User, error) {
+func (s *Service) Get(u *models.User) (*models.User, error) {
 	// print out info of user from his txt file or return err
-	user, ok := s.Users[name]
+	user, ok := s.Users[u.Name]
 
 	if !ok {
 		return nil, fmt.Errorf("User not found")
 	}
 	fileName := fmt.Sprintf("%s_user_data.txt", user.Name)
-	userFromFile, err := u.ReadUserDataFromFile(fileName)
+	userFromFile, err := 
 	if err != nil {
 		return nil, err
 	}
