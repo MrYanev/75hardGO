@@ -12,21 +12,22 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func CreateRouting(s *Service, r *gin.Engine) {
-	s.Router.POST("/creates", func(c *gin.Context) {
+func (s *Service) CreateRouting() {
+	s.Router.POST("/creates/:name", func(c *gin.Context) {
 
-		newUser, ok := c.GetQuery("name")
-
-		if !ok { //If not OK error message
-			c.IndentedJSON(http.StatusBadRequest, gin.H{"message": "Missing Name query parameter!"})
-			return
-		}
+		newUser := c.Param("name")
+		/*
+			if !ok { //If not OK error message
+				c.IndentedJSON(http.StatusBadRequest, gin.H{"message": "Missing Name query parameter!"})
+				return
+			}*/
 		if err := c.BindJSON(&newUser); err != nil {
 			c.String(http.StatusBadRequest, "Invalid Input")
 			return
 		}
 
-		createdUser, err := s.Create() //To be checked
+		nu := &models.User{Name: newUser}
+		createdUser, err := s.Create(nu) //To be checked
 		if err != nil {
 			c.String(http.StatusInternalServerError, "Error creating user: %s", err.Error())
 			return
@@ -40,7 +41,7 @@ func CreateRouting(s *Service, r *gin.Engine) {
 
 }
 
-func CheckProgressOnTasksRouting(s *Service, r *gin.Engine) {
+func (s *Service) CheckProgressOnTasksRouting() {
 	s.Router.GET("/checker", func(c *gin.Context) {
 		var newUser models.User
 		if err := c.BindJSON(&newUser); err != nil {
@@ -59,8 +60,14 @@ func CheckProgressOnTasksRouting(s *Service, r *gin.Engine) {
 	})
 }
 
-func ReadUserDataRouting(s *Service, r *gin.Engine) {
+func (s *Service) ReadUserDataRouting() {
 	s.Router.GET("/reader", func(c *gin.Context) {
 
+	})
+}
+
+func (s *Service) Ping(c *gin.Context) {
+	c.JSON(http.StatusOK, gin.H{
+		"message": "Hello, World!",
 	})
 }

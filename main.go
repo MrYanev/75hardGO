@@ -2,6 +2,7 @@ package main
 
 import (
 	"75hardgo/api"
+	"log"
 
 	"github.com/gin-gonic/gin"
 )
@@ -9,16 +10,12 @@ import (
 func main() {
 	gin.SetMode(gin.ReleaseMode)
 
-	r := gin.Default()
+	service := api.NewService()
 
-	apiService := api.NewService()
+	// Add all routes here like this
+	service.Router.GET("/ping", service.Ping)
 
-	api.CreateRouting(apiService, r)
-
-	api.CheckProgressOnTasksRouting(apiService, r)
-
-	api.ReadUserDataRouting(apiService, r)
-
-	r.Run("localhost:8080")
+	log.Printf("running on 8080")
+	service.Router.Run()
 
 }

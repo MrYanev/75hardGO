@@ -50,11 +50,11 @@ func (u *User) Create(fileName string) (*User, error) {
 	return u, nil
 }
 
-func (u *User) ReadUserDataFromFile(fileName string) {
+func (u *User) ReadUserDataFromFile(fileName string) error {
 	//Function for fetching data drom the text file
 	file, err := os.Open(fileName)
 	if err != nil {
-		fmt.Errorf("Failed to read the file!")
+		return fmt.Errorf("Failed to read the file!")
 	}
 	defer file.Close()
 
@@ -66,6 +66,7 @@ func (u *User) ReadUserDataFromFile(fileName string) {
 	}
 
 	if err := scanner.Err(); err != nil {
-		fmt.Errorf("Error while reading the file!")
+		return fmt.Errorf("Error while reading the file!")
 	}
+	return nil
 }
