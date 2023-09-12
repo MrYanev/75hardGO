@@ -50,7 +50,7 @@ func (u *User) Create(fileName string) (*User, error) {
 	return u, nil
 }
 
-func ReadUserDataFromFile(fileName string) {
+func (u *User) ReadUserDataFromFile(fileName string) {
 	//Function for fetching data drom the text file
 	file, err := os.Open(fileName)
 	if err != nil {
