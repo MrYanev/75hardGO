@@ -61,6 +61,19 @@ func (s *Service) AddTask(task string, userName string) error {
 	// add task to user (might be a func of the User struct)
 	// update the User's txt file with the new task/progress
 	// check if errors or return nil
+
+	user, ok := s.Users[userName]
+	if !ok {
+		return fmt.Errorf("User not found")
+	}
+
+	user.Tasks = append(user.Tasks, task)
+
+	fileName := fmt.Sprintf("%s_user_data.txt", user.Name)
+	if err := user.UpdateUserFile(fileName); err != nil {
+		return err
+	}
+
 	return nil
 }
 

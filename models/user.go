@@ -82,3 +82,24 @@ func (u *User) ReadUserDataFromFile(fileName string) error {
 	}
 	return nil
 }
+
+func (u *User) UpdateUserFile(fileName string) error {
+	file, err := os.Create(fileName)
+	if err != nil {
+		return nil
+	}
+
+	defer file.Close()
+
+	_, err = fmt.Fprintf(file, "Name: %s\nProgress: %d\nTasks: %v\n", u.Name, u.Progress, u.Tasks)
+	if err != nil {
+		return err
+	}
+	for _, task := range u.Tasks {
+		_, err = fmt.Fprintf(file, task)
+		if err != nil {
+			return err
+		}
+	}
+	return nil
+}
