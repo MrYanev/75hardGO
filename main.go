@@ -15,6 +15,9 @@ func main() {
 	// Add all routes here like this
 	service.Router.GET("/ping", service.Ping)
 
+	//Route for creating an user
+	service.Router.POST("/creates", service.CreateRouting)
+
 	log.Printf("running on 8080")
 	service.Router.Run()
 

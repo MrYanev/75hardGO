@@ -12,31 +12,28 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func (s *Service) CreateRouting() {
-	s.Router.POST("/creates/:name", func(c *gin.Context) {
+func (s *Service) CreateRouting(c *gin.Context) {
 
-		newUser := c.Param("name")
-		/*
-			if !ok { //If not OK error message
-				c.IndentedJSON(http.StatusBadRequest, gin.H{"message": "Missing Name query parameter!"})
-				return
-			}*/
-		if err := c.BindJSON(&newUser); err != nil {
-			c.String(http.StatusBadRequest, "Invalid Input")
-			return
-		}
+	newUser, ok := c.GetQuery("name")
+	if !ok { //If not OK error message
+		c.IndentedJSON(http.StatusBadRequest, gin.H{"message": "Missing Name query parameter!"})
+		return
+	}
+	if err := c.BindJSON(&newUser); err != nil {
+		c.String(http.StatusBadRequest, "Invalid Input")
+		return
+	}
 
-		nu := &models.User{Name: newUser}
-		createdUser, err := s.Create(nu) //To be checked
-		if err != nil {
-			c.String(http.StatusInternalServerError, "Error creating user: %s", err.Error())
-			return
-		}
+	nu := &models.User{Name: newUser}
+	createdUser, err := s.Create(nu) //To be checked
+	if err != nil {
+		c.String(http.StatusInternalServerError, "Error creating user: %s", err.Error())
+		return
+	}
 
-		c.JSON(http.StatusOK, gin.H{
-			"message": "User created succsessfully",
-			"user":    createdUser,
-		})
+	c.JSON(http.StatusOK, gin.H{
+		"message": "User created succsessfully",
+		"user":    createdUser,
 	})
 
 }
