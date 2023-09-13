@@ -7,6 +7,14 @@ import (
 	"strings"
 )
 
+var basicTasks = []string{
+	"Read 10 pages of non-fictional book\n",
+	"Drink a gallon of water\n",
+	"Complete two 45 minutes workouts\n",
+	"Follow a food regimen\n",
+	"Take a progress photo\n",
+}
+
 type User struct {
 	Name     string   `json:"name"`
 	Progress int      `json:"progress"`
@@ -43,7 +51,11 @@ func (u *User) Create(fileName string) (*User, error) {
 	}
 	defer file.Close()
 
-	_, err = fmt.Fprintf(file, "Name: %s\nProgress: %d\n", u.Name, u.Progress)
+	for _, i := range basicTasks {
+		u.Tasks = append(u.Tasks, i)
+	}
+
+	_, err = fmt.Fprintf(file, "Name: %s\nProgress: %d\nTasks: %s", u.Name, u.Progress, u.Tasks)
 	if err != nil {
 		return nil, fmt.Errorf("Failed to create a file!")
 	}
