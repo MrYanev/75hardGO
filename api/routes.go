@@ -50,10 +50,20 @@ func (s *Service) CheckProgressOnTasksRouting(c *gin.Context) {
 
 }
 
-func (s *Service) ReadUserDataRouting() {
-	s.Router.GET("/reader", func(c *gin.Context) {
+func (s *Service) ReadUserDataRouting(c *gin.Context) {
+	theUser := c.Query("name")
 
+	nu := &models.User{Name: theUser}
+	reader, err := s.Get(nu)
+	if err != nil {
+		c.String(http.StatusNotFound, "User not found!")
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"message": "This is what we have on the record for that user: ",
+		"data":    reader,
 	})
+
 }
 
 func (s *Service) Ping(c *gin.Context) {

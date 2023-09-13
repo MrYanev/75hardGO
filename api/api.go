@@ -49,7 +49,7 @@ func (s *Service) Get(u *models.User) (*models.User, error) {
 		return nil, fmt.Errorf("User not found")
 	}
 	fileName := fmt.Sprintf("%s_user_data.txt", user.Name)
-	err := u.ReadUserDataFromFile(fileName) //To be checked
+	err := u.ReadUserDataFromFile(fileName)
 	if err != nil {
 		return nil, err
 	}

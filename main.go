@@ -18,10 +18,13 @@ func main() {
 	//Route for creating an user
 	service.Router.POST("/creates", service.CreateRouting)
 
+	//Route for ReadingUserData
+	service.Router.GET("/reader", service.ReadUserDataRouting)
+
 	//Route for CheckProgressOnTask
 	service.Router.GET("/chekcer", service.CheckProgressOnTasksRouting)
 
-	log.Printf("running on 8080")
+	log.Printf("Running on 8080")
 	service.Router.Run()
 
 }
