@@ -7,6 +7,7 @@ package api
 
 import (
 	"75hardgo/models"
+
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -14,18 +15,10 @@ import (
 
 func (s *Service) CreateRouting(c *gin.Context) {
 
-	newUser, ok := c.GetQuery("name")
-	if !ok { //If not OK error message
-		c.IndentedJSON(http.StatusBadRequest, gin.H{"message": "Missing Name query parameter!"})
-		return
-	}
-	if err := c.BindJSON(&newUser); err != nil {
-		c.String(http.StatusBadRequest, "Invalid Input")
-		return
-	}
+	newUser := c.Query("name")
 
 	nu := &models.User{Name: newUser}
-	createdUser, err := s.Create(nu) //To be checked
+	createdUser, err := s.Create(nu)
 	if err != nil {
 		c.String(http.StatusInternalServerError, "Error creating user: %s", err.Error())
 		return
