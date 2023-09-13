@@ -18,6 +18,9 @@ func main() {
 	//Route for creating an user
 	service.Router.POST("/creates", service.CreateRouting)
 
+	//Route for CheckProgressOnTask
+	service.Router.GET("/chekcer", service.CheckProgressOnTasksRouting)
+
 	log.Printf("running on 8080")
 	service.Router.Run()
 
