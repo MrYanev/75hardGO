@@ -18,6 +18,7 @@ func (s *Service) CreateRouting(c *gin.Context) {
 	newUser := c.Query("name")
 
 	nu := &models.User{Name: newUser}
+
 	createdUser, err := s.Create(nu)
 	if err != nil {
 		c.String(http.StatusInternalServerError, "Error creating user: %s", err.Error())

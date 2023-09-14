@@ -25,7 +25,7 @@ func main() {
 	service.Router.GET("/reader", service.ReadUserDataRouting)
 
 	//Route for CheckProgressOnTask
-	service.Router.GET("/chekcer", service.CheckProgressOnTasksRouting)
+	service.Router.GET("/checker", service.CheckProgressOnTasksRouting)
 
 	log.Printf("Running on 8080")
 	service.Router.Run()
