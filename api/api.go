@@ -12,11 +12,17 @@ type Service struct {
 	Users  map[string]*models.User
 }
 
-func NewService() *Service {
-	return &Service{
+func NewService(dataFolder string) (*Service, error) {
+	service := &Service{
 		Router: gin.Default(),
 		Users:  make(map[string]*models.User),
 	}
+	err := service.LoadUsersFromTxtFiles(dataFolder)
+	if err != nil {
+		return nil, err
+	}
+
+	return service, nil
 }
 
 func (s *Service) LoadUsersFromTxtFiles(folderName string) error {

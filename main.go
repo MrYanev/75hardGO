@@ -2,6 +2,7 @@ package main
 
 import (
 	"75hardgo/api"
+	"fmt"
 	"log"
 
 	"github.com/gin-gonic/gin"
@@ -10,7 +11,12 @@ import (
 func main() {
 	gin.SetMode(gin.ReleaseMode)
 
-	service := api.NewService()
+	dataFolder := "D:/Code-projects/GO_projects/75hardGO/data"
+
+	service, err := api.NewService(dataFolder)
+	if err != nil {
+		fmt.Printf("Error creating a service: %s\n", err)
+	}
 
 	// Add all routes here like this
 	service.Router.GET("/ping", service.Ping)
