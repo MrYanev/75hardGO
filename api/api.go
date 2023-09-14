@@ -3,6 +3,8 @@ package api
 import (
 	"75hardgo/models"
 	"fmt"
+	"os"
+	"path/filepath"
 
 	"github.com/gin-gonic/gin"
 )
@@ -29,6 +31,25 @@ func (s *Service) LoadUsersFromTxtFiles(folderName string) error {
 	// on each app restarts read from the folder for user txt files
 	// and load those in the service map of users in mem so we have
 	// persistent usage between app restarts
+	err := filepath.Walk(folderName, func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			return err
+		}
+		if info.IsDir() {
+			return nil
+		}
+
+		user, err := models.ReadUserDataFromFile(path)
+		if err != nil {
+			return err
+		}
+		s.Users[user.Name] = user
+
+		return nil
+	})
+	if err != nil {
+		return err
+	}
 	return nil
 }
 
@@ -55,11 +76,11 @@ func (s *Service) Get(u *models.User) (*models.User, error) {
 		return nil, fmt.Errorf("User not found")
 	}
 	fileName := fmt.Sprintf("%s_user_data.txt", user.Name)
-	err := u.ReadUserDataFromFile(fileName)
+	theUser, err := u.ReadUserDataFromFile(fileName)
 	if err != nil {
 		return nil, err
 	}
-	return nil, nil
+	return theUser, nil
 }
 
 func (s *Service) AddTask(userName string, task string) error {
@@ -75,7 +96,7 @@ func (s *Service) AddTask(userName string, task string) error {
 
 	user.Tasks = append(user.Tasks, task)
 
-	fileName := fmt.Sprintf("%s_user_data.txt", user.Name)
+	fileName := filepath.Join(dataFolder, fmt.Sprintf("%s_user_data.txt", user.Name)) //To be chekced
 	if err := user.UpdateUserFile(fileName); err != nil {
 		return err
 	}

@@ -62,25 +62,37 @@ func (u *User) Create(fileName string) (*User, error) {
 	return u, nil
 }
 
-func (u *User) ReadUserDataFromFile(fileName string) error {
+func (u *User) ReadUserDataFromFile(filePath string) (*User, error) {
 	//Function for fetching data drom the text file
-	file, err := os.Open(fileName)
+	file, err := os.Open(filePath)
 	if err != nil {
-		return fmt.Errorf("Failed to read the file!")
+		return nil, fmt.Errorf("Failed to read the file!")
 	}
 	defer file.Close()
 
+	//theUser = &User{}
 	scanner := bufio.NewScanner(file)
 
 	for scanner.Scan() {
 		line := scanner.Text()
-		fmt.Println(line)
+
+		if line == "" {
+			continue
+		}
+		if _, err := fmt.Scanf(line, "Name: %s", &u.Name); err == nil {
+			continue
+		}
+		if _, err := fmt.Scanf(line, "Process: %d", &u.Progress); err == nil {
+			continue
+		}
+
+		u.Tasks = append(u.Tasks, line)
 	}
 
 	if err := scanner.Err(); err != nil {
-		return fmt.Errorf("Error while reading the file!")
+		return nil, fmt.Errorf("Error while reading the file!")
 	}
-	return nil
+	return u, nil
 }
 
 func (u *User) UpdateUserFile(fileName string) error {
