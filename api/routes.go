@@ -32,13 +32,14 @@ func (s *Service) CreateRouting(c *gin.Context) {
 }
 
 func (s *Service) CheckProgressOnTasksRouting(c *gin.Context) {
+	theUser := c.Query("name")
 
-	var newUser models.User
-	if err := c.BindJSON(&newUser); err != nil {
+	nu := &models.User{Name: theUser}
+	if err := c.BindJSON(&theUser); err != nil {
 		c.String(http.StatusNotFound, "User doesn't exist!")
 	}
 
-	userTasks, err := s.CheckTasks(newUser.Name, &newUser)
+	userTasks, err := s.CheckTasks(theUser, nu)
 	if err != nil {
 		c.String(http.StatusInternalServerError, "The shit just hit the fan!")
 	}
