@@ -15,6 +15,9 @@ func main() {
 	// Add all routes here like this
 	service.Router.GET("/ping", service.Ping)
 
+	//Route for adding a new task
+	service.Router.POST("/adder", service.AdderRouting)
+
 	//Route for creating an user
 	service.Router.POST("/creates", service.CreateRouting)
 

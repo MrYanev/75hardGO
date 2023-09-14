@@ -56,7 +56,7 @@ func (s *Service) Get(u *models.User) (*models.User, error) {
 	return nil, nil
 }
 
-func (s *Service) AddTask(task string, userName string) error {
+func (s *Service) AddTask(userName string, task string) error {
 	// get user by name from service map of users
 	// add task to user (might be a func of the User struct)
 	// update the User's txt file with the new task/progress

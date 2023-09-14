@@ -71,3 +71,22 @@ func (s *Service) Ping(c *gin.Context) {
 		"message": "Hello, World!",
 	})
 }
+
+func (s *Service) AdderRouting(c *gin.Context) {
+	var TaskRequest struct {
+		Task string `json:"task"`
+		Name string `json:"name"`
+	}
+
+	if err := c.BindJSON(&TaskRequest); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	if err := s.AddTask(TaskRequest.Name, TaskRequest.Task); err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "Task added successguly!"})
+}
