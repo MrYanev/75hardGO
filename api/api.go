@@ -23,11 +23,7 @@ func NewService() (*Service, error) {
 		Router: gin.Default(),
 		Users:  make(map[string]*models.User),
 	}
-	/*	err := service.LoadUsersFromTxtFiles(dataFolder)
-		if err != nil {
-			return nil, err
-		}
-	*/
+	service.SetUp()
 	return service, nil
 }
 
@@ -60,11 +56,10 @@ func (s *Service) SetUp() {
 	}
 }
 
-func (s *Service) LoadUsersFromTxtFiles(folderName string) error {
+func (s *Service) LoadUsersFromTxtFiles() error {
 	// on each app restarts read from the folder for user txt files
 	// and load those in the service map of users in mem so we have
 	// persistent usage between app restarts
-
 	return nil
 }
 
