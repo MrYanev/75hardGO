@@ -87,9 +87,13 @@ func (s *Service) Create(u *models.User) (*models.User, error) {
 	if err != nil {
 		return nil, err
 	}
-	fileName := fmt.Sprintf("%s\\%s.json", directory, u.Name)
+
+	subFolderPath := filepath.Join(directory, "data")
+	fileName := fmt.Sprintf("%s.json", u.Name)
+	filePath := filepath.Join(subFolderPath, fileName)
+
 	log.Printf("Dir is %s", directory)
-	err = os.WriteFile(fileName, userJSON, 0644)
+	err = os.WriteFile(filePath, userJSON, 0644)
 	if err != nil {
 		fmt.Println("Error:", err)
 		return nil, err
