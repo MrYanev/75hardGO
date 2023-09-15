@@ -35,20 +35,29 @@ func (s *Service) SetUp() {
 	//For cycle over all user files in the data dir
 	//On each file read and unmarshall json user and
 	//add it to the map
-	file, err := os.Open(s.Path)
+	files, err := os.ReadDir(s.Path)
 	if err != nil {
-		fmt.Println("Error:", err)
+		fmt.Println("Error reading the directory:", err)
 		return
 	}
-	defer file.Close()
-	var user models.User
-	decoder := json.NewDecoder(file)
-	err = decoder.Decode(&user)
-	if err != nil {
-		fmt.Println("Error:", err)
-		return
+
+	for _, file := range files {
+		if !file.IsDir() && filepath.Ext(file.Name()) == ".json" {
+			data, err := os.ReadFile(filepath.Join(s.Path, file.Name()))
+			if err != nil {
+				fmt.Printf("Error reading the file %s: %s\n", file.Name(), err)
+				continue
+			}
+
+			var user *models.User
+			err = json.Unmarshal(data, &user)
+			if err != nil {
+				fmt.Printf("Error unmarshalling the JSON file %s: %s\n", file.Name(), err)
+				continue
+			}
+			s.Users[user.Name] = user
+		}
 	}
-	//s.Users[]
 }
 
 func (s *Service) LoadUsersFromTxtFiles(folderName string) error {
