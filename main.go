@@ -11,9 +11,7 @@ import (
 func main() {
 	gin.SetMode(gin.ReleaseMode)
 
-	dataFolder := "/75hardGO/data"
-
-	service, err := api.NewService(dataFolder)
+	service, err := api.NewService()
 	if err != nil {
 		fmt.Printf("Error creating a service: %s\n", err)
 	}

@@ -44,21 +44,11 @@ func (u *User) CheckProgressOnTasks(taskName string) (bool, error) {
 	return true, nil
 }
 
-func (u *User) Create(fileName string) (*User, error) {
-	file, err := os.Create(fileName)
-	if err != nil {
-		return nil, fmt.Errorf("Failed to create a file!")
-	}
-	defer file.Close()
-
+func (u *User) Create() (*User, error) {
 	for _, i := range basicTasks {
 		u.Tasks = append(u.Tasks, i)
 	}
 
-	_, err = fmt.Fprintf(file, "Name: %s\nProgress: %d\nTasks: %s", u.Name, u.Progress, u.Tasks)
-	if err != nil {
-		return nil, fmt.Errorf("Failed to create a file!")
-	}
 	return u, nil
 }
 
