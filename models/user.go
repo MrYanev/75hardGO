@@ -82,6 +82,7 @@ func (u *User) ReadUserDataFromFile(filePath string) (*User, error) {
 	if err := scanner.Err(); err != nil {
 		return nil, fmt.Errorf("Error while reading the file!")
 	}
+
 	return u, nil
 }
 

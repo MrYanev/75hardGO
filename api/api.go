@@ -30,7 +30,7 @@ func NewService() (*Service, error) {
 	service.Path = filepath.Join(dir, "data")
 	service.SetUp()
 	for key, value := range service.Users {
-		log.Println(key, value)
+		log.Println(key, *value)
 	}
 
 	return service, nil
