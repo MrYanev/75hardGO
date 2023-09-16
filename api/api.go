@@ -23,6 +23,11 @@ func NewService() (*Service, error) {
 		Router: gin.Default(),
 		Users:  make(map[string]*models.User),
 	}
+	dir, err := os.Getwd()
+	if err != nil {
+		return nil, fmt.Errorf("Couldn't take current dirrectory")
+	}
+	service.Path = filepath.Join(dir, "data")
 	service.SetUp()
 	return service, nil
 }
@@ -31,6 +36,7 @@ func (s *Service) SetUp() {
 	//For cycle over all user files in the data dir
 	//On each file read and unmarshall json user and
 	//add it to the map
+	log.Printf(s.Path)
 	files, err := os.ReadDir(s.Path)
 	if err != nil {
 		fmt.Println("Error reading the directory:", err)
