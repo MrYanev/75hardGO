@@ -68,6 +68,21 @@ func (s *Service) ReadUserDataRouting(c *gin.Context) {
 
 }
 
+func (s *Service) CheckUsersTask(c *gin.Context) {
+	theUser := c.Query("name")
+
+	nu := &models.User{Name: theUser}
+	checker, err := s.CheckTasks(theUser, nu)
+	if err != nil {
+		c.String(http.StatusNotFound, "User not found!")
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"message": "You have the following task to accomplish",
+		"tasks":   checker,
+	})
+}
+
 func (s *Service) Ping(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"message": "Hello, World!",
