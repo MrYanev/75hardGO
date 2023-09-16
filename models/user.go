@@ -25,7 +25,7 @@ func (u *User) CheckTasks() []string {
 	return u.Tasks
 }
 
-func (u *User) CheckProgressOnTasks(taskName string) (bool, error) {
+func (u *User) CheckProgressOnTasks(userName string) (bool, error) {
 	// check if tasks are compleated and reset or print shame message!
 	reader := bufio.NewReader(os.Stdin)
 
