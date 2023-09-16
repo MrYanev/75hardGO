@@ -77,7 +77,6 @@ func (s *Service) LoadUsersFromTxtFiles() error {
 // name, progress and tasks.
 func (s *Service) Create(u *models.User) (*models.User, error) {
 	// add user in the map and create a txt file for him
-
 	createdUser, err := u.Create()
 	if err != nil {
 		return nil, fmt.Errorf("Failed to create a file!")
@@ -111,15 +110,16 @@ func (s *Service) Create(u *models.User) (*models.User, error) {
 func (s *Service) Get(u *models.User) (*models.User, error) {
 	// print out info of user from his txt file or return err
 	user, ok := s.Users[u.Name]
-
 	if !ok {
 		return nil, fmt.Errorf("User not found")
 	}
+
 	fileName := fmt.Sprintf("%s_user_data.txt", user.Name)
 	theUser, err := u.ReadUserDataFromFile(fileName)
 	if err != nil {
 		return nil, err
 	}
+
 	return theUser, nil
 }
 
@@ -128,7 +128,6 @@ func (s *Service) AddTask(userName string, task string) error {
 	// add task to user (might be a func of the User struct)
 	// update the User's txt file with the new task/progress
 	// check if errors or return nil
-
 	user, ok := s.Users[userName]
 	if !ok {
 		return fmt.Errorf("User not found")
