@@ -7,6 +7,7 @@ package api
 
 import (
 	"75hardgo/models"
+	"log"
 
 	"net/http"
 
@@ -34,12 +35,11 @@ func (s *Service) CreateRouting(c *gin.Context) {
 func (s *Service) CheckProgressOnTasksRouting(c *gin.Context) {
 	theUser := c.Query("name")
 
-	nu := &models.User{Name: theUser}
 	if err := c.BindJSON(&theUser); err != nil {
 		c.String(http.StatusNotFound, "User doesn't exist!")
 	}
 
-	userTasks, err := s.CheckTasks(theUser, nu)
+	userTasks, err := s.CheckTasks(theUser)
 	if err != nil {
 		c.String(http.StatusInternalServerError, "The shit just hit the fan!")
 	} else {
@@ -54,9 +54,9 @@ func (s *Service) CheckProgressOnTasksRouting(c *gin.Context) {
 func (s *Service) ReadUserDataRouting(c *gin.Context) {
 	theUser := c.Query("name")
 
-	nu := &models.User{Name: theUser}
-	reader, err := s.Get(nu)
+	reader, err := s.Get(theUser)
 	if err != nil {
+		log.Printf("Prin map %#v", s.Users)
 		c.String(http.StatusNotFound, "User not found!")
 	} else {
 		c.JSON(http.StatusOK, gin.H{
@@ -67,21 +67,22 @@ func (s *Service) ReadUserDataRouting(c *gin.Context) {
 
 }
 
-func (s *Service) CheckUsersTask(c *gin.Context) {
-	theUser := c.Query("name")
+/*
+	func (s *Service) CheckUsersTask(c *gin.Context) {
+		theUser := c.Query("name")
 
-	nu := &models.User{Name: theUser}
-	checker, err := s.CheckTasks(theUser, nu)
-	if err != nil {
-		c.String(http.StatusNotFound, "User not found!")
-	} else {
-		c.JSON(http.StatusOK, gin.H{
-			"message": "You have the following task to accomplish",
-			"tasks":   checker,
-		})
+		nu := &models.User{Name: theUser}
+		checker, err := s.CheckTasks(theUser, nu)
+		if err != nil {
+			c.String(http.StatusNotFound, "User not found!")
+		} else {
+			c.JSON(http.StatusOK, gin.H{
+				"message": "You have the following task to accomplish",
+				"tasks":   checker,
+			})
+		}
 	}
-}
-
+*/
 func (s *Service) AdderRouting(c *gin.Context) {
 	var TaskRequest struct {
 		Task string `json:"task"`

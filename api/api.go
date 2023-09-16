@@ -107,20 +107,15 @@ func (s *Service) Create(u *models.User) (*models.User, error) {
 	return createdUser, nil
 }
 
-func (s *Service) Get(u *models.User) (*models.User, error) {
+func (s *Service) Get(name string) (*models.User, error) {
 	// print out info of user from his txt file or return err
-	user, ok := s.Users[u.Name]
+	user, ok := s.Users[name]
 	if !ok {
+		fmt.Printf("Here is u map %v", s.Users)
 		return nil, fmt.Errorf("User not found")
 	}
 
-	fileName := fmt.Sprintf("%s_user_data.txt", user.Name)
-	theUser, err := u.ReadUserDataFromFile(fileName)
-	if err != nil {
-		return nil, err
-	}
-
-	return theUser, nil
+	return user, nil
 }
 
 func (s *Service) AddTask(userName string, task string) error {
@@ -143,14 +138,14 @@ func (s *Service) AddTask(userName string, task string) error {
 	return nil
 }
 
-func (s *Service) CheckTasks(name string, u *models.User) (bool, error) {
+func (s *Service) CheckTasks(name string) (bool, error) {
 	// just display tasks (u.CheckTasks())
 	user, ok := s.Users[name]
 	if !ok {
 		return false, fmt.Errorf("User not found")
 	}
 
-	tasksUser, err := u.CheckProgressOnTasks(user.Name)
+	tasksUser, err := user.CheckProgressOnTasks(user.Name)
 	if err != nil {
 		return false, fmt.Errorf("Shit just hit the fan!")
 	}

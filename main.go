@@ -31,6 +31,8 @@ func main() {
 	//Route for CheckProgressOnTask
 	service.Router.GET("/getter", service.CheckProgressOnTasksRouting)
 
+	//Update user task routing
+
 	log.Printf("Running on 8080")
 	service.Router.Run()
 

@@ -39,6 +39,7 @@ func (u *User) CheckProgressOnTasks(userName string) (bool, error) {
 			u.Progress = 0
 			fmt.Printf("You have failed to accomplish all tasks today\n")
 			fmt.Println("Your progress has been restarted!")
+			break
 		}
 	}
 	return true, nil
