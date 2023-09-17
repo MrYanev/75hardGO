@@ -7,7 +7,9 @@ package api
 
 import (
 	"75hardgo/models"
+	"fmt"
 	"log"
+	"strings"
 
 	"net/http"
 
@@ -109,6 +111,26 @@ func (s *Service) Ping(c *gin.Context) {
 }
 
 func (s *Service) ResponseRoute(c *gin.Context) {
-	//response := c.Query("response")
+	response := c.Query("response")
+	userName := c.Query("name")
 
+	if _, userExists := s.Users[userName]; !userExists {
+		c.JSON(http.StatusNotFound, gin.H{
+			"message": "User not found",
+		})
+	}
+
+	if strings.ToLower(response) == "yes" {
+
+	} else if strings.ToLower(response) == "no" {
+
+	} else {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": "Please responde with Yes or No",
+		})
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"message": fmt.Sprintf("Task completion status for %s updated.", userName),
+	})
 }
