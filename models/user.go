@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"fmt"
 	"os"
-	"strings"
 )
 
 var basicTasks = []string{
@@ -27,21 +26,23 @@ func (u *User) CheckTasks() []string {
 
 func (u *User) CheckProgressOnTasks(userName string) (bool, error) {
 	// check if tasks are compleated and reset or print shame message!
-	reader := bufio.NewReader(os.Stdin)
+	/*
+		reader := bufio.NewReader(os.Stdin)
 
-	fmt.Println("Please comfirm the compleation of each task")
-	for i, task := range u.Tasks {
-		fmt.Printf("Task %d: %s (yes/no): ", i+1, task)
-		answer, _ := reader.ReadString('\n')
-		answer = strings.TrimSpace(answer)
+		fmt.Println("Please comfirm the compleation of each task")
+		for i, task := range u.Tasks {
+			fmt.Printf("Task %d: %s (yes/no): ", i+1, task)
+			answer, _ := reader.ReadString('\n')
+			answer = strings.TrimSpace(answer)
 
-		if strings.ToLower(answer) == "no" {
-			u.Progress = 0
-			fmt.Printf("You have failed to accomplish all tasks today\n")
-			fmt.Println("Your progress has been restarted!")
-			break
+			if strings.ToLower(answer) == "no" {
+				u.Progress = 0
+				fmt.Printf("You have failed to accomplish all tasks today\n")
+				fmt.Println("Your progress has been restarted!")
+				break
+			}
 		}
-	}
+	*/
 	return true, nil
 }
 
