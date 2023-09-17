@@ -33,6 +33,9 @@ func main() {
 
 	//Update user task routing
 
+	//Route for responses
+	service.Router.POST("/responder", service.ResponseRoute)
+
 	log.Printf("Running on 8080")
 	service.Router.Run()
 

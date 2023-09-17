@@ -107,3 +107,8 @@ func (s *Service) Ping(c *gin.Context) {
 		"message": "Hello, World!",
 	})
 }
+
+func (s *Service) ResponseRoute(c *gin.Context) {
+	//response := c.Query("response")
+
+}
