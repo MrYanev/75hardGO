@@ -32,6 +32,7 @@ func main() {
 	service.Router.GET("/getter", service.CheckProgressOnTasksRouting)
 
 	//Update user task routing
+	service.Router.POST("/update", service.UpdateTasks)
 
 	//Route for responses
 	service.Router.POST("/responder", service.ResponseRoute)

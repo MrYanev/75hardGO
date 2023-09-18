@@ -129,10 +129,13 @@ func (s *Service) ResponseRoute(c *gin.Context) {
 			c.JSON(http.StatusOK, gin.H{
 				"message": "Good job",
 			})
+			continue
 		} else if strings.ToLower(response) == "no" {
 			c.JSON(http.StatusOK, gin.H{
 				"message": "You are a failure",
 			})
+			theUser.Progress = 0
+			break
 		} else {
 			c.JSON(http.StatusBadRequest, gin.H{
 				"message": "Please responde with Yes or No",
@@ -143,4 +146,13 @@ func (s *Service) ResponseRoute(c *gin.Context) {
 			"message": fmt.Sprintf("Task completion status for %s updated.", userName),
 		})
 	}
+	theUser.Progress += 1
+
+	c.JSON(http.StatusOK, gin.H{
+		"message": fmt.Sprintf("You have successfuly completed another day. Your current progress is %v day.", theUser.Progress),
+	})
+}
+
+func (s *Service) UpdateTasks(c *gin.Context) {
+
 }
