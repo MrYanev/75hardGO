@@ -2,6 +2,7 @@ package models
 
 import (
 	"bufio"
+	"encoding/json"
 	"fmt"
 	"os"
 )
@@ -89,6 +90,7 @@ func (u *User) ReadUserDataFromFile(filePath string) (*User, error) {
 }
 
 func (u *User) UpdateUserFile(fileName string) error {
+
 	file, err := os.Create(fileName)
 	if err != nil {
 		return fmt.Errorf("Error working with the file")
@@ -106,5 +108,23 @@ func (u *User) UpdateUserFile(fileName string) error {
 			return err
 		}
 	}
+
+	return nil
+}
+
+func (u *User) WriteUpdatesToFile() error {
+	fileName := fmt.Sprintf("%s.json", u.Name)
+
+	userJSON, err := json.MarshalIndent(u, "", "  ")
+	if err != nil {
+		return fmt.Errorf("Failed to marshal user data: %v", err)
+	}
+
+	err = os.WriteFile(fileName, userJSON, 0644)
+	if err != nil {
+		return fmt.Errorf("Failed to write user data to file: %v", err)
+	}
+
+	fmt.Printf("User data written to %s\n", fileName)
 	return nil
 }

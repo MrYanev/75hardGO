@@ -155,12 +155,12 @@ func (s *Service) CheckTasks(name string) (bool, error) {
 	return tasksUser, nil
 }
 
-func (s *Service) UpdateUserFiles() {
+func (s *Service) WriteUpdatesToFile() {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
 	for _, user := range s.Users {
-		err := user.UpdateUserFile(user.Name)
+		err := user.WriteUpdatesToFile()
 		if err != nil {
 			fmt.Printf("Error updating user data from file %s: %v\n", user.Name, err)
 		} else {

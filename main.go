@@ -40,7 +40,7 @@ func main() {
 	//Route for responses
 	service.Router.POST("/responder", service.ResponseRoute)
 
-	defer service.UpdateUserFiles()
+	defer service.WriteUpdatesToFile()
 
 	signalCh := make(chan os.Signal, 1)
 	signal.Notify(signalCh, syscall.SIGINT, syscall.SIGTERM)
