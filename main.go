@@ -40,13 +40,12 @@ func main() {
 	//Route for responses
 	service.Router.POST("/responder", service.ResponseRoute)
 
-	defer service.WriteUpdatesToFile()
-
 	signalCh := make(chan os.Signal, 1)
 	signal.Notify(signalCh, syscall.SIGINT, syscall.SIGTERM)
 
 	go func() {
 		<-signalCh
+		service.WriteUpdatesToFile()
 		fmt.Println("Received termination signal. Shutting down...")
 		os.Exit(0)
 	}()

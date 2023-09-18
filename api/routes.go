@@ -76,12 +76,12 @@ func (s *Service) AdderRouting(c *gin.Context) {
 	}
 
 	if err := c.BindJSON(&TaskRequest); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{"SHIT": err.Error()})
 		return
 	}
 
 	if err := s.AddTask(TaskRequest.Name, TaskRequest.Task); err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
+		c.JSON(http.StatusNotFound, gin.H{"Error": err.Error()})
 		return
 	}
 
@@ -104,32 +104,26 @@ func (s *Service) ResponseRoute(c *gin.Context) {
 			"message": "User not found",
 		})
 	}
-	for _, task := range theUser.Tasks {
+
+	if strings.ToLower(response) == "yes" {
 		c.JSON(http.StatusOK, gin.H{
-			"task": task,
+			"message": "Good job",
 		})
-
-		if strings.ToLower(response) == "yes" {
-			c.JSON(http.StatusOK, gin.H{
-				"message": "Good job",
-			})
-			continue
-		} else if strings.ToLower(response) == "no" {
-			c.JSON(http.StatusOK, gin.H{
-				"message": "You are a failure",
-			})
-			theUser.Progress = 0
-			break
-		} else {
-			c.JSON(http.StatusBadRequest, gin.H{
-				"message": "Please responde with Yes or No",
-			})
-		}
-
+	} else if strings.ToLower(response) == "no" {
 		c.JSON(http.StatusOK, gin.H{
-			"message": fmt.Sprintf("Task completion status for %s updated.", userName),
+			"message": "You are a failure",
+		})
+		theUser.Progress = 0
+	} else {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": "Please responde with Yes or No",
 		})
 	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"message": fmt.Sprintf("Task completion status for %s updated.", userName),
+	})
+
 	theUser.Progress += 1
 
 	c.JSON(http.StatusOK, gin.H{

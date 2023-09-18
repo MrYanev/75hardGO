@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"path/filepath"
 )
 
 var basicTasks = []string{
@@ -113,14 +114,21 @@ func (u *User) UpdateUserFile(fileName string) error {
 }
 
 func (u *User) WriteUpdatesToFile() error {
+
+	directory, err := os.Getwd()
+	if err != nil {
+		return fmt.Errorf("Failed to get the folder path")
+	}
+	subFolderPath := filepath.Join(directory, "data")
 	fileName := fmt.Sprintf("%s.json", u.Name)
+	filePath := filepath.Join(subFolderPath, fileName)
 
 	userJSON, err := json.MarshalIndent(u, "", "  ")
 	if err != nil {
 		return fmt.Errorf("Failed to marshal user data: %v", err)
 	}
 
-	err = os.WriteFile(fileName, userJSON, 0644)
+	err = os.WriteFile(filePath, userJSON, 0644)
 	if err != nil {
 		return fmt.Errorf("Failed to write user data to file: %v", err)
 	}

@@ -132,7 +132,7 @@ func (s *Service) AddTask(userName string, task string) error {
 
 	user.Tasks = append(user.Tasks, task)
 
-	fileName := filepath.Join(s.Path, fmt.Sprintf("%s_user_data.txt", user.Name))
+	fileName := filepath.Join(s.Path, fmt.Sprintf("%s.json", user.Name))
 	if err := user.UpdateUserFile(fileName); err != nil {
 		return err
 	}
