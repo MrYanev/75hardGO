@@ -114,23 +114,33 @@ func (s *Service) ResponseRoute(c *gin.Context) {
 	response := c.Query("response")
 	userName := c.Query("name")
 
-	if _, userExists := s.Users[userName]; !userExists {
+	theUser := s.Users[userName]
+	if _, theUser := s.Users[userName]; !theUser {
 		c.JSON(http.StatusNotFound, gin.H{
 			"message": "User not found",
 		})
 	}
+	for _, task := range theUser.Tasks {
+		c.JSON(http.StatusOK, gin.H{
+			"task": task,
+		})
 
-	if strings.ToLower(response) == "yes" {
+		if strings.ToLower(response) == "yes" {
+			c.JSON(http.StatusOK, gin.H{
+				"message": "Good job",
+			})
+		} else if strings.ToLower(response) == "no" {
+			c.JSON(http.StatusOK, gin.H{
+				"message": "You are a failure",
+			})
+		} else {
+			c.JSON(http.StatusBadRequest, gin.H{
+				"message": "Please responde with Yes or No",
+			})
+		}
 
-	} else if strings.ToLower(response) == "no" {
-
-	} else {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"message": "Please responde with Yes or No",
+		c.JSON(http.StatusOK, gin.H{
+			"message": fmt.Sprintf("Task completion status for %s updated.", userName),
 		})
 	}
-
-	c.JSON(http.StatusOK, gin.H{
-		"message": fmt.Sprintf("Task completion status for %s updated.", userName),
-	})
 }
