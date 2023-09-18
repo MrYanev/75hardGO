@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"sync"
 
 	"path/filepath"
 
@@ -16,6 +17,7 @@ type Service struct {
 	Router *gin.Engine
 	Users  map[string]*models.User
 	Path   string
+	mu     sync.Mutex
 }
 
 func NewService() (*Service, error) {
@@ -151,4 +153,18 @@ func (s *Service) CheckTasks(name string) (bool, error) {
 	}
 
 	return tasksUser, nil
+}
+
+func (s *Service) UpdateUserFiles() {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	for _, user := range s.Users {
+		err := user.UpdateUserFile(user.Name)
+		if err != nil {
+			fmt.Printf("Error updating user data from file %s: %v\n", user.Name, err)
+		} else {
+			fmt.Printf("User data update for %s\n", user.Name)
+		}
+	}
 }

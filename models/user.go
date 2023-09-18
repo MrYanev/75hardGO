@@ -91,7 +91,7 @@ func (u *User) ReadUserDataFromFile(filePath string) (*User, error) {
 func (u *User) UpdateUserFile(fileName string) error {
 	file, err := os.Create(fileName)
 	if err != nil {
-		return nil
+		return fmt.Errorf("Error working with the file")
 	}
 
 	defer file.Close()

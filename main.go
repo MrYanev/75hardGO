@@ -4,6 +4,9 @@ import (
 	"75hardgo/api"
 	"fmt"
 	"log"
+	"os"
+	"os/signal"
+	"syscall"
 
 	"github.com/gin-gonic/gin"
 )
@@ -36,6 +39,17 @@ func main() {
 
 	//Route for responses
 	service.Router.POST("/responder", service.ResponseRoute)
+
+	defer service.UpdateUserFiles()
+
+	signalCh := make(chan os.Signal, 1)
+	signal.Notify(signalCh, syscall.SIGINT, syscall.SIGTERM)
+
+	go func() {
+		<-signalCh
+		fmt.Println("Received termination signal. Shutting down...")
+		os.Exit(0)
+	}()
 
 	log.Printf("Running on 8080")
 	service.Router.Run()
