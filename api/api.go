@@ -140,17 +140,14 @@ func (s *Service) AddTask(userName string, task string) error {
 	return nil
 }
 
-func (s *Service) CheckTasks(name string) (bool, error) {
+func (s *Service) CheckTasks(name string) ([]string, error) {
 	// just display tasks (u.CheckTasks())
 	user, ok := s.Users[name]
 	if !ok {
-		return false, fmt.Errorf("User not found")
+		return nil, fmt.Errorf("User not found")
 	}
 
-	tasksUser, err := user.CheckProgressOnTasks(user.Name)
-	if err != nil {
-		return false, fmt.Errorf("Shit just hit the fan!")
-	}
+	tasksUser := user.Tasks
 
 	return tasksUser, nil
 }

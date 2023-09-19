@@ -37,10 +37,6 @@ func (s *Service) CreateRouting(c *gin.Context) {
 func (s *Service) CheckProgressOnTasksRouting(c *gin.Context) {
 	theUser := c.Query("name")
 
-	if err := c.BindJSON(&theUser); err != nil {
-		c.String(http.StatusNotFound, "User doesn't exist!")
-	}
-
 	userTasks, err := s.CheckTasks(theUser)
 	if err != nil {
 		c.String(http.StatusInternalServerError, "The shit just hit the fan!")
@@ -70,17 +66,10 @@ func (s *Service) ReadUserDataRouting(c *gin.Context) {
 }
 
 func (s *Service) AdderRouting(c *gin.Context) {
-	var TaskRequest struct {
-		Task string `json:"task"`
-		Name string `json:"name"`
-	}
+	theTask := c.Query("task")
+	theUser := c.Query("name")
 
-	if err := c.BindJSON(&TaskRequest); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"SHIT": err.Error()})
-		return
-	}
-
-	if err := s.AddTask(TaskRequest.Name, TaskRequest.Task); err != nil {
+	if err := s.AddTask(theUser, theTask); err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"Error": err.Error()})
 		return
 	}
